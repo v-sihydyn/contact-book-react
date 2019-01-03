@@ -1,46 +1,80 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class ContactForm extends Component {
+  state = {
+    firstName: this.props.contact ? this.props.contact.firstName : '',
+    lastName: this.props.contact ? this.props.contact.lastName : '',
+    phone: this.props.contact ? this.props.contact.phone : '',
+    birthDate: this.props.contact ? this.props.contact.birthDate : '',
+    email: this.props.contact ? this.props.contact.email : '',
+  };
+
+  static propTypes = {
+    contact: PropTypes.object,
+  };
+
+  onChange = (e) => {
+    e.persist();
+    const changedField = e.target.name;
+
+    this.setState(() => ({
+      [changedField]: e.target.value
+    }));
+};
+
   render() {
+    const { firstName, lastName, phone, email, birthDate } = this.state;
+
     return (
       <div>
         <div className="form-group">
-          <label htmlFor="first-name">First name</label>
+          <label htmlFor="firstName">First name</label>
           <input
             type="text"
-            name="first-name"
+            name="firstName"
+            value={firstName}
+            onChange={this.onChange}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="last-name">Last name</label>
+          <label htmlFor="lastName">Last name</label>
           <input
             type="text"
-            name="last-name"
+            name="lastName"
+            value={lastName}
+            onChange={this.onChange}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="first-name">Phone number</label>
+          <label htmlFor="phone">Phone number</label>
           <input
             type="text"
-            name="phone-number"
+            name="phone"
+            value={phone}
+            onChange={this.onChange}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="email-address">Email address</label>
+          <label htmlFor="email">Email address</label>
           <input
             type="text"
-            name="email-address"
+            name="email"
+            value={email}
+            onChange={this.onChange}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="birth-date">Birth date</label>
+          <label htmlFor="birthDate">Birth date</label>
           <input
             type="text"
-            name="birth-date"
+            name="birthDate"
+            value={birthDate}
+            onChange={this.onChange}
           />
         </div>
 

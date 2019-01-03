@@ -9,10 +9,12 @@ import contactsAsSortedArray from "../store/selectors/contactsAsSortedArray";
 class ContactsList extends Component {
   state = {
     isPopupFormOpen: false,
+    currentContactForEditing: null,
   };
 
   static propTypes = {
     denormalizedContacts: PropTypes.array,
+    normalizedContacts: PropTypes.object,
   };
 
   showModal = () => {
@@ -24,7 +26,22 @@ class ContactsList extends Component {
   hideModal = () => {
     this.setState(() => ({
       isPopupFormOpen: false,
+      currentContactForEditing: null,
     }));
+  };
+
+  handleContactCreating = () => {
+    this.setState(() => ({
+      currentContactForEditing: null,
+    }), this.showModal);
+  };
+
+  handleContactEditing = (id) => {
+    const { normalizedContacts } = this.props;
+
+    this.setState(() => ({
+      currentContactForEditing: normalizedContacts[id],
+    }), this.showModal);
   };
 
   renderContacts = () => {
@@ -35,6 +52,7 @@ class ContactsList extends Component {
         { denormalizedContacts.map((contact) => (
           <section key={contact.id}>
             <p>{contact.firstName}</p>
+            <button onClick={() => this.handleContactEditing(contact.id)}>Edit</button>
           </section>
         )) }
       </div>
@@ -42,7 +60,7 @@ class ContactsList extends Component {
   };
 
   render() {
-    const { isPopupFormOpen } = this.state;
+    const { isPopupFormOpen, currentContactForEditing } = this.state;
 
     return (
       <div>
@@ -50,22 +68,25 @@ class ContactsList extends Component {
 
         {this.renderContacts()}
 
-        <button onClick={this.showModal}>Create contact</button>
+        <button onClick={this.handleContactCreating}>Create contact</button>
 
         <Modal
           appElement={document.getElementById('root')}
           isOpen={isPopupFormOpen}
           onRequestClose={this.hideModal}
         >
-          <ContactForm />
+          <ContactForm
+            contact={currentContactForEditing}
+          />
         </Modal>
       </div>
     );
   }
-};
+}
 
 const mapStateToProps = (state) => ({
   denormalizedContacts: contactsAsSortedArray(state),
+  normalizedContacts: state.contacts.list,
 });
 
 export default connect(mapStateToProps)(ContactsList);
