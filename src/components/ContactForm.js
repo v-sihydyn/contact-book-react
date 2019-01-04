@@ -12,6 +12,8 @@ export default class ContactForm extends Component {
 
   static propTypes = {
     contact: PropTypes.object,
+    submitHandler: PropTypes.func,
+    closeModalFn: PropTypes.func,
   };
 
   onChange = (e) => {
@@ -21,13 +23,23 @@ export default class ContactForm extends Component {
     this.setState(() => ({
       [changedField]: e.target.value
     }));
-};
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+
+    this.props.submitHandler({
+      ...this.props.contact,
+      ...this.state,
+    })
+      .then(() => this.props.closeModalFn());
+  };
 
   render() {
     const { firstName, lastName, phone, email, birthDate } = this.state;
 
     return (
-      <div>
+      <form onSubmit={this.onSubmit}>
         <div className="form-group">
           <label htmlFor="firstName">First name</label>
           <input
@@ -35,6 +47,7 @@ export default class ContactForm extends Component {
             name="firstName"
             value={firstName}
             onChange={this.onChange}
+            required
           />
         </div>
 
@@ -45,6 +58,7 @@ export default class ContactForm extends Component {
             name="lastName"
             value={lastName}
             onChange={this.onChange}
+            required
           />
         </div>
 
@@ -55,6 +69,7 @@ export default class ContactForm extends Component {
             name="phone"
             value={phone}
             onChange={this.onChange}
+            required
           />
         </div>
 
@@ -81,7 +96,7 @@ export default class ContactForm extends Component {
         <img src="" alt=""/>
 
         <button>Save</button>
-      </div>
+      </form>
     );
   }
 };

@@ -23,7 +23,5 @@ export default {
       },
     },
     pending: false,
-    success: false,
-    failure: false,
   },
 };

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import ContactForm from "../components/ContactForm";
 import contactsAsSortedArray from "../store/selectors/contactsAsSortedArray";
+import { addContact, editContact } from "../store/actions/contacts";
 
 class ContactsList extends Component {
   state = {
@@ -15,6 +16,8 @@ class ContactsList extends Component {
   static propTypes = {
     denormalizedContacts: PropTypes.array,
     normalizedContacts: PropTypes.object,
+    addContact: PropTypes.func,
+    editContact: PropTypes.func,
   };
 
   showModal = () => {
@@ -40,7 +43,7 @@ class ContactsList extends Component {
     const { normalizedContacts } = this.props;
 
     this.setState(() => ({
-      currentContactForEditing: normalizedContacts[id],
+      currentContactForEditing: { ...normalizedContacts[id] },
     }), this.showModal);
   };
 
@@ -61,6 +64,10 @@ class ContactsList extends Component {
 
   render() {
     const { isPopupFormOpen, currentContactForEditing } = this.state;
+    const { editContact, addContact } = this.props;
+    const submitHandler = (currentContactForEditing && currentContactForEditing.id)
+      ? editContact
+      : addContact;
 
     return (
       <div>
@@ -68,7 +75,11 @@ class ContactsList extends Component {
 
         {this.renderContacts()}
 
-        <button onClick={this.handleContactCreating}>Create contact</button>
+        <button
+          onClick={this.handleContactCreating}
+        >
+          Create contact
+        </button>
 
         <Modal
           appElement={document.getElementById('root')}
@@ -77,6 +88,8 @@ class ContactsList extends Component {
         >
           <ContactForm
             contact={currentContactForEditing}
+            submitHandler={submitHandler}
+            closeModalFn={this.hideModal}
           />
         </Modal>
       </div>
@@ -89,4 +102,9 @@ const mapStateToProps = (state) => ({
   normalizedContacts: state.contacts.list,
 });
 
-export default connect(mapStateToProps)(ContactsList);
+const mapDispatchToProps = (dispatch) => ({
+  addContact: contact => dispatch(addContact(contact)),
+  editContact: contact => dispatch(editContact(contact)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);
