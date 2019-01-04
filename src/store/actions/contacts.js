@@ -1,6 +1,6 @@
 import uuidv4 from 'uuid/v4';
 
-import { ADD_CONTACT, EDIT_CONTACT } from '../action-types/contacts';
+import { ADD_CONTACT, EDIT_CONTACT, REORDER_LIST } from '../action-types/contacts';
 
 export const addContact = (contact) => (dispatch) => {
   return new Promise((resolve) => {
@@ -30,3 +30,8 @@ export const editContact = (contact) => (dispatch) => {
     }, 300);
   });
 };
+
+export const reorderList = newList => ({
+  type: REORDER_LIST,
+  payload: newList,
+});

@@ -1,5 +1,5 @@
 import initialData from '../initialData';
-import { ADD_CONTACT, EDIT_CONTACT } from '../action-types/contacts';
+import { ADD_CONTACT, EDIT_CONTACT, REORDER_LIST } from '../action-types/contacts';
 
 const contactsReducer = (state = initialData.contacts, action) => {
   switch (action.type) {
@@ -21,6 +21,11 @@ const contactsReducer = (state = initialData.contacts, action) => {
           ...state.list,
           [action.payload.id]: action.payload,
         },
+      };
+    case REORDER_LIST:
+      return {
+        ...state,
+        list: action.payload,
       };
     default:
       return state;
