@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { arrayMove } from 'react-sortable-hoc';
 
 import ContactForm from "../components/ContactForm";
 import contactsAsSortedArray from "../store/selectors/contactsAsSortedArray";
-import { addContact, editContact } from "../store/actions/contacts";
+import { addContact, editContact, reorderList } from "../store/actions/contacts";
+import SortableList from "../components/sortable/SortableList";
+
 
 class ContactsList extends Component {
   state = {
@@ -18,6 +21,7 @@ class ContactsList extends Component {
     normalizedContacts: PropTypes.object,
     addContact: PropTypes.func,
     editContact: PropTypes.func,
+    reorderList: PropTypes.func,
   };
 
   showModal = () => {
@@ -47,19 +51,35 @@ class ContactsList extends Component {
     }), this.showModal);
   };
 
+
   renderContacts = () => {
     const { denormalizedContacts } = this.props;
 
     return (
-      <div>
-        { denormalizedContacts.map((contact) => (
-          <section key={contact.id}>
-            <p>{contact.firstName}</p>
-            <button onClick={() => this.handleContactEditing(contact.id)}>Edit</button>
-          </section>
-        )) }
-      </div>
+      <SortableList
+        items={denormalizedContacts}
+        onSortEnd={this.onSortEnd}
+        axis="xy"
+      />
     );
+  };
+
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    const { denormalizedContacts } = this.props;
+    const items = arrayMove(
+      denormalizedContacts,
+      oldIndex,
+      newIndex,
+    )
+      .reduce((acc, cur, index) => {
+        acc[cur.id] = {
+          ...cur,
+          position: index,
+        };
+        return acc;
+      }, {});
+
+    this.props.reorderList(items);
   };
 
   render() {
@@ -76,6 +96,7 @@ class ContactsList extends Component {
         {this.renderContacts()}
 
         <button
+          className="btn btn--block card__btn"
           onClick={this.handleContactCreating}
         >
           Create contact
@@ -105,6 +126,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addContact: contact => dispatch(addContact(contact)),
   editContact: contact => dispatch(editContact(contact)),
+  reorderList: newList => dispatch(reorderList(newList)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);
