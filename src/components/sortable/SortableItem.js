@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { SortableElement } from 'react-sortable-hoc';
 
-const SortableItem = SortableElement(({ contact }) =>
+const SortableItem = SortableElement(({ contact, handleContactEditing }) =>
   <li className="cards__item">
     <div className="card">
       <div className="card__content">
@@ -10,9 +11,21 @@ const SortableItem = SortableElement(({ contact }) =>
 
         <p className="card__text">{contact.phone}</p>
         <p className="card__text">{contact.email}</p>
+
+        <button
+          className="btn btn--block card__btn"
+          onClick={() => handleContactEditing(contact.id)}
+        >
+          Edit
+        </button>
       </div>
     </div>
   </li>
 );
+
+SortableItem.propTypes = {
+  contact: PropTypes.object,
+  handleContactEditing: PropTypes.func,
+};
 
 export default SortableItem;

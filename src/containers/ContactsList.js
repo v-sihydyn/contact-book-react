@@ -59,6 +59,7 @@ class ContactsList extends Component {
       <SortableList
         items={denormalizedContacts}
         onSortEnd={this.onSortEnd}
+        handleContactEditing={this.handleContactEditing}
         axis="xy"
       />
     );
