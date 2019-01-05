@@ -2,34 +2,13 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import { arrayMove } from 'react-sortable-hoc';
 
 import ContactForm from "../components/ContactForm";
 import contactsAsSortedArray from "../store/selectors/contactsAsSortedArray";
 import { addContact, editContact, reorderList } from "../store/actions/contacts";
+import SortableList from "../components/sortable/SortableList";
 
-const SortableItem = SortableElement(({ contact }) =>
-  <li className="cards__item">
-    <div className="card">
-      <div className="card__content">
-        <div className="card__title">{`${contact.firstName} ${contact.lastName}`}</div>
-
-        <p className="card__text">{contact.phone}</p>
-        <p className="card__text">{contact.email}</p>
-      </div>
-    </div>
-  </li>
-);
-
-const SortableList = SortableContainer(({items}) => {
-  return (
-    <ul className="cards">
-      {items.map((value, index) => (
-        <SortableItem key={`item-${index}`} index={index} contact={value} />
-      ))}
-    </ul>
-  );
-});
 
 class ContactsList extends Component {
   state = {
@@ -71,6 +50,7 @@ class ContactsList extends Component {
       currentContactForEditing: { ...normalizedContacts[id] },
     }), this.showModal);
   };
+
 
   renderContacts = () => {
     const { denormalizedContacts } = this.props;
