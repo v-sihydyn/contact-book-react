@@ -92,16 +92,18 @@ class ContactsList extends Component {
 
     return (
       <div>
-        <h1>Contacts List</h1>
+        <h1 className="text-center">Contacts List</h1>
 
         {this.renderContacts()}
 
-        <button
-          className="btn btn--block card__btn"
-          onClick={this.handleContactCreating}
-        >
-          Create contact
-        </button>
+        <div className="btn-wrapper">
+          <button
+            className="btn btn--block card__btn"
+            onClick={this.handleContactCreating}
+          >
+            Create contact
+          </button>
+        </div>
 
         <Modal
           appElement={document.getElementById('root')}

@@ -7,13 +7,15 @@ const SortableItem = SortableElement(({ contact, handleContactEditing }) =>
   <li className="cards__item">
     <div className="card">
       <div className="card__content">
-        <div className="card__title">{`${contact.firstName} ${contact.lastName}`}</div>
+        <div className="card__title text-center">{`${contact.firstName} ${contact.lastName}`}</div>
 
         <p className="card__text">{contact.phone}</p>
         <p className="card__text">{contact.email}</p>
 
+
+
         <button
-          className="btn btn--block card__btn"
+          className="btn btn--block"
           onClick={() => handleContactEditing(contact.id)}
         >
           Edit

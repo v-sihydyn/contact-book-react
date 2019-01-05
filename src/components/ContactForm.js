@@ -95,7 +95,7 @@ export default class ContactForm extends Component {
 
         <img src="" alt=""/>
 
-        <button>Save</button>
+        <button className="btn btn--block">Save</button>
       </form>
     );
   }
