@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Form, Input } from 'antd';
 
-export default class ContactForm extends Component {
+
+class ContactForm extends Component {
   state = {
     firstName: this.props.contact ? this.props.contact.firstName : '',
     lastName: this.props.contact ? this.props.contact.lastName : '',
@@ -37,66 +39,52 @@ export default class ContactForm extends Component {
 
   render() {
     const { firstName, lastName, phone, email, birthDate } = this.state;
-
     return (
-      <form onSubmit={this.onSubmit}>
-        <div className="form-group">
-          <label htmlFor="firstName">First name</label>
-          <input
-            type="text"
+      <Form layout="vertical" onSubmit={this.onSubmit}>
+        <Form.Item label="First Name">
+          <Input
             name="firstName"
             value={firstName}
             onChange={this.onChange}
-            required
           />
-        </div>
+        </Form.Item>
 
-        <div className="form-group">
-          <label htmlFor="lastName">Last name</label>
-          <input
-            type="text"
+        <Form.Item label="Last Name">
+          <Input
             name="lastName"
             value={lastName}
             onChange={this.onChange}
-            required
           />
-        </div>
+        </Form.Item>
 
-        <div className="form-group">
-          <label htmlFor="phone">Phone number</label>
-          <input
-            type="text"
+        <Form.Item label="Phone">
+          <Input
             name="phone"
             value={phone}
             onChange={this.onChange}
-            required
           />
-        </div>
+        </Form.Item>
 
-        <div className="form-group">
-          <label htmlFor="email">Email address</label>
-          <input
-            type="text"
+        <Form.Item label="Email">
+          <Input
             name="email"
             value={email}
             onChange={this.onChange}
           />
-        </div>
+        </Form.Item>
 
-        <div className="form-group">
-          <label htmlFor="birthDate">Birth date</label>
-          <input
-            type="text"
+        <Form.Item label="Birth date">
+          <Input
             name="birthDate"
             value={birthDate}
             onChange={this.onChange}
           />
-        </div>
-
-        <img src="" alt=""/>
+        </Form.Item>
 
         <button className="btn btn--block">Save</button>
-      </form>
+      </Form>
     );
   }
-};
+}
+
+export default ContactForm;

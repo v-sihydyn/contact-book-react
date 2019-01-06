@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { arrayMove } from 'react-sortable-hoc';
@@ -8,6 +7,7 @@ import ContactForm from "../components/ContactForm";
 import contactsAsSortedArray from "../store/selectors/contactsAsSortedArray";
 import { addContact, editContact, reorderList } from "../store/actions/contacts";
 import SortableList from "../components/sortable/SortableList";
+import { Modal } from "antd";
 
 
 class ContactsList extends Component {
@@ -103,19 +103,22 @@ class ContactsList extends Component {
           >
             Create contact
           </button>
-        </div>
 
-        <Modal
-          appElement={document.getElementById('root')}
-          isOpen={isPopupFormOpen}
-          onRequestClose={this.hideModal}
-        >
-          <ContactForm
-            contact={currentContactForEditing}
-            submitHandler={submitHandler}
-            closeModalFn={this.hideModal}
-          />
-        </Modal>
+          <Modal
+            visible={isPopupFormOpen}
+            title="Create a new contact"
+            footer={null}
+            onCancel={this.hideModal}
+            destroyOnClose
+          >
+            <ContactForm
+              closeModalFn={this.hideModal}
+              submitHandler={submitHandler}
+              contact={currentContactForEditing}
+            />
+          </Modal>
+
+        </div>
       </div>
     );
   }
