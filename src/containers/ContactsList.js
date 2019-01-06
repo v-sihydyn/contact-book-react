@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { arrayMove } from 'react-sortable-hoc';
+import moment from 'moment';
+import { Modal } from 'antd';
 
-import ContactForm from "../components/ContactForm";
-import contactsAsSortedArray from "../store/selectors/contactsAsSortedArray";
-import { addContact, editContact, reorderList } from "../store/actions/contacts";
-import SortableList from "../components/sortable/SortableList";
-import { Modal } from "antd";
+import ContactForm from '../components/ContactForm';
+import contactsAsSortedArray from '../store/selectors/contactsAsSortedArray';
+import { addContact, editContact, reorderList } from '../store/actions/contacts';
+import SortableList from '../components/sortable/SortableList';
 
 
 class ContactsList extends Component {
@@ -47,22 +48,11 @@ class ContactsList extends Component {
     const { normalizedContacts } = this.props;
 
     this.setState(() => ({
-      currentContactForEditing: { ...normalizedContacts[id] },
+      currentContactForEditing: {
+        ...normalizedContacts[id],
+        birthDate: moment(normalizedContacts[id].birthDate),
+      },
     }), this.showModal);
-  };
-
-
-  renderContacts = () => {
-    const { denormalizedContacts } = this.props;
-
-    return (
-      <SortableList
-        items={denormalizedContacts}
-        onSortEnd={this.onSortEnd}
-        handleContactEditing={this.handleContactEditing}
-        axis="xy"
-      />
-    );
   };
 
   onSortEnd = ({ oldIndex, newIndex }) => {
@@ -83,10 +73,24 @@ class ContactsList extends Component {
     this.props.reorderList(items);
   };
 
+  renderContacts = () => {
+    const { denormalizedContacts } = this.props;
+
+    return (
+      <SortableList
+        items={denormalizedContacts}
+        onSortEnd={this.onSortEnd}
+        handleContactEditing={this.handleContactEditing}
+        axis="xy"
+      />
+    );
+  };
+
   render() {
     const { isPopupFormOpen, currentContactForEditing } = this.state;
     const { editContact, addContact } = this.props;
-    const submitHandler = (currentContactForEditing && currentContactForEditing.id)
+    const isContactExisting = Boolean(currentContactForEditing && currentContactForEditing.id);
+    const submitHandler = isContactExisting
       ? editContact
       : addContact;
 
@@ -106,7 +110,7 @@ class ContactsList extends Component {
 
           <Modal
             visible={isPopupFormOpen}
-            title="Create a new contact"
+            header={null}
             footer={null}
             onCancel={this.hideModal}
             destroyOnClose
@@ -115,6 +119,7 @@ class ContactsList extends Component {
               closeModalFn={this.hideModal}
               submitHandler={submitHandler}
               contact={currentContactForEditing}
+              isContactExisting={isContactExisting}
             />
           </Modal>
 

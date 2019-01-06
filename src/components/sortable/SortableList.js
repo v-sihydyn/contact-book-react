@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { SortableContainer } from 'react-sortable-hoc';
+
 import SortableItem from './SortableItem';
 
 const SortableList = SortableContainer(({ items, handleContactEditing }) => {
