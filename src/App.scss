@@ -54,20 +54,16 @@ img {
   text-align: center;
   cursor: pointer;
   outline: none;
-  color: #fff;
-  background-color: #666;
-  border: none;
-  box-shadow: 0 10px #999;
+  color: #000;
+  background-color: #bbb;
+  box-shadow: 0 10px #ccc;
+  border: 1px solid #000;
   transition: all .3s;
 }
 
-.btn:hover {
-  background-color: #777;
-}
-
 .btn:active {
-  background-color: #666;
-  box-shadow: 0 0 #666;
+  background-color: #aaa;
+  box-shadow: 0 0 #bbb;
   transform: translateY(10px);
 }
 
