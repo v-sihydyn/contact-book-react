@@ -50,6 +50,7 @@
     "react-app-polyfill": "^0.2.0",
     "react-dev-utils": "^7.0.0",
     "react-dom": "^16.7.0",
+    "react-dropzone": "^8.0.3",
     "react-redux": "^6.0.0",
     "react-sortable-hoc": "^0.8.4",
     "redux": "^4.0.1",
