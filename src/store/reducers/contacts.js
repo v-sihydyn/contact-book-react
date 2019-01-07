@@ -6,22 +6,28 @@ const contactsReducer = (state = initialData.contacts, action) => {
     case ADD_CONTACT:
       return {
         ...state,
-        list: {
-          ...state.list,
-          [action.payload.id]: {
-            ...action.payload,
-            position: Object.keys(state.list).length + 1,
+        list: state.list.concat([
+          {
+            ...action.payload.data,
+            position: state.list.length + 1,
           }
-        },
+        ]),
       };
-    case EDIT_CONTACT:
+    case EDIT_CONTACT: {
+      const index = state.list.findIndex(item => action.payload.data.id === item.id);
+
       return {
         ...state,
-        list: {
-          ...state.list,
-          [action.payload.id]: action.payload,
-        },
+        list: index > -1
+          ?
+          [
+            ...state.list.slice(0, index),
+            action.payload.data,
+            ...state.list.slice(index + 1),
+          ]
+          : state.list,
       };
+    }
     case REORDER_LIST:
       return {
         ...state,

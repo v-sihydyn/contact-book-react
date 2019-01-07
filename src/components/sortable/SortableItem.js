@@ -15,7 +15,7 @@ const SortableItem = SortableElement(({ contact, handleContactEditing }) =>
 
         <button
           className="btn btn--block"
-          onClick={() => handleContactEditing(contact.id)}
+          onClick={() => handleContactEditing(contact)}
         >
           Edit
         </button>

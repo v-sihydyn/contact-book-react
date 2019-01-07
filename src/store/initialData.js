@@ -1,7 +1,7 @@
 export default {
   contacts: {
-    list: {
-      1: {
+    list: [
+      {
         id: 1,
         firstName: 'Tracy',
         lastName: 'McCullough',
@@ -11,7 +11,7 @@ export default {
         image: 'https://s3.amazonaws.com/uifaces/faces/twitter/praveen_vijaya/128.jpg',
         position: 1,
       },
-      2: {
+      {
         id: 2,
         firstName: 'Jensen',
         lastName: 'Beer',
@@ -21,7 +21,7 @@ export default {
         image: 'https://s3.amazonaws.com/uifaces/faces/twitter/sementiy/128.jpg',
         position: 0,
       },
-      3: {
+      {
         id: 3,
         firstName: 'Adele',
         lastName: 'Parker',
@@ -31,7 +31,7 @@ export default {
         image: 'https://s3.amazonaws.com/uifaces/faces/twitter/woodsman001/128.jpg',
         position: 3,
       },
-      4: {
+      {
         id: 4,
         firstName: 'Leon',
         lastName: 'Brakus',
@@ -41,7 +41,6 @@ export default {
         image: 'https://s3.amazonaws.com/uifaces/faces/twitter/shoaib253/128.jpg',
         position: 2,
       },
-    },
-    pending: false,
+    ],
   },
 };

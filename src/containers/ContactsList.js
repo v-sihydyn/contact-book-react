@@ -6,7 +6,7 @@ import moment from 'moment';
 import { Modal } from 'antd';
 
 import ContactForm from '../components/ContactForm';
-import contactsAsSortedArray from '../store/selectors/contactsAsSortedArray';
+import sortedContacts from '../store/selectors/sortedContacts';
 import { addContact, editContact, reorderList } from '../store/actions/contacts';
 import SortableList from '../components/sortable/SortableList';
 
@@ -18,8 +18,7 @@ class ContactsList extends Component {
   };
 
   static propTypes = {
-    denormalizedContacts: PropTypes.array,
-    normalizedContacts: PropTypes.object,
+    contacts: PropTypes.array,
     addContact: PropTypes.func,
     editContact: PropTypes.func,
     reorderList: PropTypes.func,
@@ -44,41 +43,36 @@ class ContactsList extends Component {
     }), this.showModal);
   };
 
-  handleContactEditing = (id) => {
-    const { normalizedContacts } = this.props;
-
+  handleContactEditing = (contact) => {
     this.setState(() => ({
       currentContactForEditing: {
-        ...normalizedContacts[id],
-        birthDate: moment(normalizedContacts[id].birthDate),
+        ...contact,
+        birthDate: moment(contact.birthDate),
       },
     }), this.showModal);
   };
 
   onSortEnd = ({ oldIndex, newIndex }) => {
-    const { denormalizedContacts } = this.props;
+    const { contacts } = this.props;
     const items = arrayMove(
-      denormalizedContacts,
+      contacts,
       oldIndex,
       newIndex,
     )
-      .reduce((acc, cur, index) => {
-        acc[cur.id] = {
-          ...cur,
-          position: index,
-        };
-        return acc;
-      }, {});
+      .map((contact, index) => ({
+        ...contact,
+        position: index,
+      }));
 
     this.props.reorderList(items);
   };
 
   renderContacts = () => {
-    const { denormalizedContacts } = this.props;
+    const { contacts } = this.props;
 
     return (
       <SortableList
-        items={denormalizedContacts}
+        items={contacts}
         onSortEnd={this.onSortEnd}
         handleContactEditing={this.handleContactEditing}
         axis="xy"
@@ -130,8 +124,7 @@ class ContactsList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  denormalizedContacts: contactsAsSortedArray(state),
-  normalizedContacts: state.contacts.list,
+  contacts: sortedContacts(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
