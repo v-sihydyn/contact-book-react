@@ -4355,6 +4355,10 @@ ini@^1.3.4, ini@~1.3.0:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
 
+inputmask@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-4.0.5.tgz#5b4effbe938926c8f78b7990d651cf3a0d316d15"
+
 inquirer@6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-6.2.0.tgz#51adcd776f661369dc1e894859c2560a224abdd8"

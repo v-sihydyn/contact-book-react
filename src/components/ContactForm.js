@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, DatePicker } from 'antd';
 import moment from 'moment';
+import InputMask from 'inputmask';
 
 
 class ContactForm extends Component {
@@ -19,6 +20,18 @@ class ContactForm extends Component {
     closeModalFn: PropTypes.func,
     isContactExisting: PropTypes.bool,
   };
+
+  constructor(props) {
+    super(props);
+    this.phoneInput = React.createRef();
+  }
+
+  componentDidMount() {
+    InputMask({
+      showMaskOnHover: false,
+      mask: '+38 (999) 999-99-99',
+    }).mask(this.phoneInput.current.input)
+  }
 
   onChange = (e) => {
     e.persist();
@@ -56,6 +69,7 @@ class ContactForm extends Component {
             name="firstName"
             value={firstName}
             onChange={this.onChange}
+            required
           />
         </Form.Item>
 
@@ -64,6 +78,7 @@ class ContactForm extends Component {
             name="lastName"
             value={lastName}
             onChange={this.onChange}
+            required
           />
         </Form.Item>
 
@@ -72,6 +87,9 @@ class ContactForm extends Component {
             name="phone"
             value={phone}
             onChange={this.onChange}
+            ref={this.phoneInput}
+            placeholder="+38 (___) ___-__-__"
+            required
           />
         </Form.Item>
 
@@ -90,11 +108,6 @@ class ContactForm extends Component {
             value={birthDate}
             onChange={this.onDateChange}
           />
-          {/*<Input*/}
-            {/*name="birthDate"*/}
-            {/*value={birthDate}*/}
-            {/*onChange={this.onChange}*/}
-          {/*/>*/}
         </Form.Item>
 
         <button className="btn btn--block">
