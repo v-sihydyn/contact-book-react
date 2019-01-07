@@ -104,6 +104,8 @@ class ContactsList extends Component {
 
           <Modal
             visible={isPopupFormOpen}
+            width={900}
+            bodyStyle={{ paddingTop: '50px' }}
             header={null}
             footer={null}
             onCancel={this.hideModal}
