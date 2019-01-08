@@ -7,7 +7,7 @@ import { Modal } from 'antd';
 
 import ContactForm from '../components/ContactForm';
 import sortedContacts from '../store/selectors/sortedContacts';
-import { addContact, editContact, reorderList } from '../store/actions/contacts';
+import { addContact, deleteContact, editContact, reorderList } from '../store/actions/contacts';
 import SortableList from '../components/sortable/SortableList';
 
 
@@ -21,6 +21,7 @@ class ContactsList extends Component {
     contacts: PropTypes.array,
     addContact: PropTypes.func,
     editContact: PropTypes.func,
+    deleteContact: PropTypes.func,
     reorderList: PropTypes.func,
   };
 
@@ -52,6 +53,10 @@ class ContactsList extends Component {
     }), this.showModal);
   };
 
+  handleContactDeleting = (index) => {
+    this.props.deleteContact(index);
+  };
+
   onSortEnd = ({ oldIndex, newIndex }) => {
     const { contacts } = this.props;
     const items = arrayMove(
@@ -75,6 +80,7 @@ class ContactsList extends Component {
         items={contacts}
         onSortEnd={this.onSortEnd}
         handleContactEditing={this.handleContactEditing}
+        handleContactDeleting={this.handleContactDeleting}
         axis="xy"
       />
     );
@@ -132,6 +138,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addContact: contact => dispatch(addContact(contact)),
   editContact: contact => dispatch(editContact(contact)),
+  deleteContact: index => dispatch(deleteContact(index)),
   reorderList: newList => dispatch(reorderList(newList)),
 });
 
